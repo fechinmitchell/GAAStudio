@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34; /* Dark gray background */
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: auto 1fr; /* Header row auto, content row 1fr */
+  gap: 1rem; /* Space between grid items */
+  padding: 1rem;
+  margin-top: 40px; /* Assuming you want some space between the header and grid */
+}
+
+/* Optional: If you have other controls in the header that you want to layout */
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-selector {
+  margin: 20px auto;
+}
+
+.team-data {
+  margin: 20px auto;
+  padding: 10px;
+  max-width: 600px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.heatmap-container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.heatmap-image {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+/* Styles for the buttons */
+.MuiButton-root {
+  margin: 8px; /* Space around buttons */
+  padding: 10px 20px; /* Padding inside buttons */
+}

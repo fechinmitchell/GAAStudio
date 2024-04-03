@@ -1,0 +1,79 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34; /* Dark gray background */
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
+
+/* Remove the .grid-container if using Material-UI Grid system */
+
+/* Optional: If you have other controls in the header that you want to layout */
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.team-selector {
+  margin: 20px auto;
+}
+
+.team-data {
+  margin: 20px auto;
+  padding: 10px;
+  max-width: 600px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.chart-container {
+  padding: 10px;
+  width: 90%;
+  margin: auto;
+}
+
+/* Responsive adjustments for the chart and heatmap containers */
+@media (max-width: 768px) {
+  .chart-container,
+  .heatmap-container {
+    max-width: 100%;
+  }
+}
+
+/* Responsive image styles */
+.heatmap-image {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+.heatmap-container {
+  width: 100%;
+  margin: auto;
+}
+
+/* Styles for the buttons */
+.MuiButton-root {
+  margin: 8px; /* Space around buttons */
+  padding: 10px 20px; /* Padding inside buttons */
+}
+
+/* Responsive font sizes and padding for the header */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 15px;
+    font-size: 20px;
+  }
+}
+
+/* Ensures the sidebar scales or hides on smaller screens */
+@media (max-width: 768px) {
+  .App-sidebar {
+    display: none; /* You might want to hide the sidebar on very small screens */
+  }
+}

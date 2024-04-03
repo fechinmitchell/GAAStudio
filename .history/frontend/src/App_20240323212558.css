@@ -1,0 +1,22 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+  }
+  
+  .team-data {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .chart-container {
+    width: 600px; /* Adjust width as needed */
+    height: 400px; /* Adjust height as needed */
+    margin: auto; /* Center the chart if desired */
+  }

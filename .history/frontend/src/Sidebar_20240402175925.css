@@ -1,0 +1,82 @@
+.sidebar {
+    width: 250px;
+    background-color: #3c414a; /* Same grey as the header */
+    color: white; /* Text color */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Adjusted shadow for contrast */
+    height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Include padding in the width */
+  }
+  
+  .sidebar-header {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sidebar-header img.team-logo {
+    max-width: 80px;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 400; /* Less boldness to match the header style */
+  }
+  
+  /* Style for the user's name to stand out */
+  .user-name {
+    font-weight: 700; /* Bold for user name */
+    margin-bottom: 40px; /* More space after the name */
+  }
+  
+  .sidebar button {
+    width: 100%;
+    padding: 10px 20px; /* Comfortable padding for finger tapping on touch devices */
+    margin-bottom: 10px; /* Space between buttons */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1em; /* Larger font size for readability */
+    text-transform: uppercase; /* Stylistic choice for uppercase letters */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  /* Hover effect for buttons */
+  .sidebar button:hover {
+    background-color: #3a3f47; /* Slightly lighter grey for hover */
+    color: #fff;
+  }
+  
+  /* Active state for buttons */
+  .sidebar button.active {
+    background-color: #4b5271; /* Distinct color for active state */
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .sidebar-header {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  
+    .sidebar-header h3 {
+      font-size: 1.2em; /* Slightly smaller font size for smaller screens */
+    }
+  
+    .sidebar button {
+      padding: 8px 16px; /* Adjusted padding for smaller screens */
+      font-size: 0.9em; /* Smaller font size for smaller screens */
+    }
+  }
+  
