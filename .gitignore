@@ -1,3 +1,16 @@
+# Ignore specific files
 /backend/Football_Championship_2023_Shots_With_Expected_Points.json
-/Users/fechinmitchell/Projects/GAAStudio/frontend/src/components/firebase.jsnode_modules/
+/frontend/src/components/firebase.js
+
+# Properly ignore node_modules directory
+node_modules/
+
+# Ignore Python virtual environment directory
 backend/venv/
+
+# Ignore cache files (if applicable, based on your previous errors)
+*.pack
+
+# Ignore any dynamic library files that might be large
+*.dylib
+
