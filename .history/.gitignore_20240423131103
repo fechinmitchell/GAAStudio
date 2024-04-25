@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+/backend/venv/
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Build outputs
+/build
+/dist
+
+# Ignore datset files
+/backend/Football_Championship_2023_Shots_With_Expected_Points.json
+
+# System files
+.DS_Store
+*.log
+
+# Editor directories and files
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vscode/
+
+# Ignore certain config files
+/frontend/src/components/firebase.js
+
+# Ignore caches
+*.cache
+*.pack
+
+# Ignore dynamic libraries and compiled Python files
+*.dylib
+*.pyc
+*.pyo
+__pycache__/
