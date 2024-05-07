@@ -1,0 +1,49 @@
+/* Attacking.css */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.chart-and-heatmap-container, .additional-charts-container, .fixed-table-container {
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-container, .heatmap-container, .additional-chart-container {
+    flex: 1 1 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fixed-players-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fixed-players-thead th {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.fixed-player-row.even {
+    background-color: #f9f9f9;
+}
+
+.fixed-player-row.odd {
+    background-color: #fff;
+}
+

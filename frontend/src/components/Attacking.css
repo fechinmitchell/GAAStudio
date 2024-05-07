@@ -1,0 +1,61 @@
+/* Attacking.css */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.chart-and-heatmap-container, .additional-charts-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.chart-container, .heatmap-container, .additional-chart-container {
+    flex: 1;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-right: 10px; /* Add spacing between charts */
+}
+
+.chart-container:last-child, .heatmap-container:last-child, .additional-chart-container:last-child {
+    margin-right: 0; /* Remove margin for the last chart */
+}
+
+.fixed-table-container {
+    height: 50vh; /* Half the viewport height */
+    overflow: auto; /* Adds scrollbar if content overflows */
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.button-group {
+    display: flex;        /* Makes the container a flexbox */
+    flex-direction: row;  /* Aligns children (buttons) in a row */
+    justify-content: center; /* Centers buttons horizontally */
+    gap: 10px;            /* Adds space between buttons */
+}
+
+.fixed-players-thead th {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    font-weight: bold;
+    padding: 12px 15px;
+    border-bottom: 2px solid #006fe6; /* A slightly darker blue than the background */
+    text-align: center;
+    cursor: pointer; /* Indicates that the header is clickable */
+}
+
+.fixed-players-thead th:hover {
+    background-color: #0056b3; /* A darker shade of blue for hover effect */
+}
