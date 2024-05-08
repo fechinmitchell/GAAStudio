@@ -5,11 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import Attacking from './components/Attacking';
-import SignIn from './components/SignIn'; // Your sign-in component
-import SignUp from './components/SignUp'; // Ensure the path is correct
-import { auth } from './components/firebase'; // Update the path as necessary
+import Players from './components/Players';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Defending from './components/Defending';
+import { auth } from './components/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -17,7 +18,7 @@ function App() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [user, setUser] = useState(null); // State to keep track of user auth status
+  const [user, setUser] = useState(null);
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState('Galway');
   const [currentPage, setCurrentPage] = useState('attacking');
@@ -25,23 +26,20 @@ function App() {
   const [heatMapUrl, setHeatMapUrl] = useState('');
   const [scoringZoneEfficiency, setScoringZoneEfficiency] = useState({ inside: 0, outside: 0 });
 
-  // Listen for Firebase auth state changes
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
     });
-
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    // Only fetch data if the user is authenticated
     if (user) {
       fetch('/teams')
         .then(response => response.json())
         .then(data => setTeams(data))
         .catch(error => console.error('Error fetching team data:', error));
-      
+
       fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
         .then(response => response.json())
         .then(data => setScoringZoneEfficiency({
@@ -61,52 +59,58 @@ function App() {
     setCurrentPage(page);
   }
 
-  // Conditionally render content based on user authentication
   if (!user) {
-    return <div>Please sign in to view the content.</div>;
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="*" element={<Navigate replace to="/signin" />} />
+        </Routes>
+      </BrowserRouter>
+    );
   }
-
-  rreturn (
+  
+  return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
           GAA Studio - Analytics Dashboard
         </header>
-        {user ? (
-          // Authenticated user layout
-          <Grid container spacing={2}>
-            {!isMobile && (
-              <Grid item xs={12} sm={3}>
-                <Sidebar
-                  onNavigate={handleNavigate}
-                  teams={teams}
-                  selectedTeam={selectedTeam}
-                  setSelectedTeam={setSelectedTeam}
-                />
-              </Grid>
+        <div className="main-container"> {/* Use flexbox layout here */}
+          {!isMobile && (
+            <div className="App-sidebar"> {/* Sidebar container */}
+              <Sidebar
+                onNavigate={handleNavigate}
+                teams={teams}
+                selectedTeam={selectedTeam}
+                setSelectedTeam={setSelectedTeam}
+              />
+            </div>
+          )}
+          <div className="content-area"> {/* Main content area */}
+            {currentPage === 'attacking' && (
+              <Attacking
+                selectedTeam={selectedTeam}
+                setSelectedTeam={setSelectedTeam}
+                scoringZoneEfficiency={scoringZoneEfficiency}
+                heatMapUrl={heatMapUrl}
+                setDataType={setDataType}
+              />
             )}
-            <Grid item xs={12} sm={9}>
-              {currentPage === 'attacking' && (
-                <Attacking
-                  scoringZoneEfficiency={scoringZoneEfficiency}
-                  heatMapUrl={heatMapUrl}
-                  setDataType={setDataType}
-                />
-              )}
-              {/* Here you can add additional pages/components like "Defending" as needed */}
-            </Grid>
-          </Grid>
-        ) : (
-          // Unauthenticated user layout
-          <Routes>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} /> {/* Updated component name */}
-            <Route path="*" element={<Navigate replace to="/signin" />} />
-          </Routes>
-        )}
+            {currentPage === 'players' && (
+              <Players />
+            )}
+            {currentPage === 'defending' && (
+              <Defending selectedTeam={selectedTeam} />
+            )}
+            {/* Add other page components as needed */}
+          </div>
+        </div>
       </div>
     </BrowserRouter>
   );
-}
+}  
 
 export default App;

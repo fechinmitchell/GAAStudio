@@ -25,6 +25,7 @@ function App() {
   const [dataType, setDataType] = useState('shots');
   const [heatMapUrl, setHeatMapUrl] = useState('');
   const [scoringZoneEfficiency, setScoringZoneEfficiency] = useState({ inside: 0, outside: 0 });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -38,7 +39,10 @@ function App() {
       fetch('/teams')
         .then(response => response.json())
         .then(data => setTeams(data))
-        .catch(error => console.error('Error fetching team data:', error));
+        .catch(error => {
+          console.error('Error fetching team data:', error);
+          setError(error.toString());
+        });
 
       fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
         .then(response => response.json())
@@ -46,7 +50,10 @@ function App() {
           inside: data.inside_scoring_zone.success_rate || 0,
           outside: data.outside_scoring_zone.success_rate || 0
         }))
-        .catch(error => console.error('Error fetching scoring zone efficiency:', error));
+        .catch(error => {
+          console.error('Error fetching scoring zone efficiency:', error);
+          setError(error.toString());
+        });
 
       if (selectedTeam && dataType) {
         const url = `/heatmaps/${selectedTeam}/${dataType}`;
@@ -57,6 +64,10 @@ function App() {
 
   function handleNavigate(page) {
     setCurrentPage(page);
+  }
+
+  if (error) {
+    return <div>An error occurred: {error}</div>;
   }
 
   if (!user) {
@@ -71,16 +82,16 @@ function App() {
       </BrowserRouter>
     );
   }
-  
+
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
           GAA Studio - Analytics Dashboard
         </header>
-        <div className="main-container"> {/* Use flexbox layout here */}
+        <div className="main-container">
           {!isMobile && (
-            <div className="App-sidebar"> {/* Sidebar container */}
+            <div className="App-sidebar">
               <Sidebar
                 onNavigate={handleNavigate}
                 teams={teams}
@@ -89,7 +100,7 @@ function App() {
               />
             </div>
           )}
-          <div className="content-area"> {/* Main content area */}
+          <div className="content-area">
             {currentPage === 'attacking' && (
               <Attacking
                 selectedTeam={selectedTeam}
@@ -105,7 +116,6 @@ function App() {
             {currentPage === 'defending' && (
               <Defending selectedTeam={selectedTeam} />
             )}
-            {/* Add other page components as needed */}
           </div>
         </div>
       </div>
