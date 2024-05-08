@@ -34,39 +34,29 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      fetch('/teams')
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
-        .then(data => setTeams(data))
-        .catch(error => {
-          console.error('Error fetching team data:', error);
-          setError(error.toString());
-        });
-
-      fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
-        .then(data => setScoringZoneEfficiency({
-          inside: data.inside_scoring_zone.success_rate || 0,
-          outside: data.outside_scoring_zone.success_rate || 0
-        }))
-        .catch(error => {
-          console.error('Error fetching scoring zone efficiency:', error);
-          setError(error.toString());
-        });
-
-      if (selectedTeam && dataType) {
-        const url = `/heatmaps/${selectedTeam}/${dataType}`;
-        setHeatMapUrl(url);
-      }
+  fetch('/teams')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  }, [selectedTeam, dataType, user]);
+    return response.json();
+  })
+  .then(data => setTeams(data))
+  .catch(error => console.error('Error fetching team data:', error.message));
+
+fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => setScoringZoneEfficiency({
+    inside: data.inside_scoring_zone.success_rate || 0,
+    outside: data.outside_scoring_zone.success_rate || 0
+  }))
+  .catch(error => console.error('Error fetching scoring zone efficiency:', error.message));
+
 
   function handleNavigate(page) {
     setCurrentPage(page);

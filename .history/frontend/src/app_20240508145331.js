@@ -37,10 +37,7 @@ function App() {
   useEffect(() => {
     if (user) {
       fetch('/teams')
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => setTeams(data))
         .catch(error => {
           console.error('Error fetching team data:', error);
@@ -48,10 +45,7 @@ function App() {
         });
 
       fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => setScoringZoneEfficiency({
           inside: data.inside_scoring_zone.success_rate || 0,
           outside: data.outside_scoring_zone.success_rate || 0
