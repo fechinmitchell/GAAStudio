@@ -17,3 +17,4 @@ backend/venv/
 # Ignore any dynamic library files that might be large
 *.dylib
 
+.history/backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0_20240509171905.json
