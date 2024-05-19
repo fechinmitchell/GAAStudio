@@ -1,3 +1,4 @@
+# backend/app.py
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
@@ -10,17 +11,12 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Retrieve environment variables
-FIREBASE_PRIVATE_KEY = os.getenv("FIREBASE_PRIVATE_KEY")
-if FIREBASE_PRIVATE_KEY is None:
-    raise ValueError("Missing FIREBASE_PRIVATE_KEY in environment variables")
-
 # Initialize Firebase Admin with environment variables
 firebase_config = {
     "type": os.getenv("FIREBASE_TYPE"),
     "project_id": os.getenv("FIREBASE_PROJECT_ID"),
     "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
-    "private_key": FIREBASE_PRIVATE_KEY.replace('\\n', '\n'),
+    "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
     "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
     "client_id": os.getenv("FIREBASE_CLIENT_ID"),
     "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
@@ -38,11 +34,16 @@ firebase_admin.initialize_app(cred, {
 app = Flask(__name__)
 CORS(app)
 
+
+app = Flask(__name__)
+CORS(app)
+
 @app.route('/test-image-url')
 def test_image_url():
     path = 'datasets/ASD/Armagh_average_shot_positions.png'
     url = generate_signed_url(path)
     return jsonify({'url': url})
+
 
 @app.route('/players', methods=['GET'])
 def get_player_stats():
@@ -54,6 +55,7 @@ def get_player_stats():
         return jsonify(player_stats_json)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 def generate_signed_url(blob_path):
     bucket = storage.bucket()
@@ -117,7 +119,7 @@ SCORING_ZONE_HALF_WIDTH = 28
 
 def is_within_scoring_zone(x, y):
     return (GOAL_LINE - SCORING_ZONE_DEPTH) <= x <= GOAL_LINE and \
-        (CENTER_WIDTH - SCORING_ZONE_HALF_WIDTH) <= y <= (CENTER_WIDTH + SCORING_ZONE_HALF_WIDTH)
+           (CENTER_WIDTH - SCORING_ZONE_HALF_WIDTH) <= y <= (CENTER_WIDTH + SCORING_ZONE_HALF_WIDTH)
 
 @app.route('/scoring-zone-efficiency', methods=['GET'])
 def get_scoring_zone_efficiency():
