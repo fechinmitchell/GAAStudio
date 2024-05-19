@@ -1,6 +1,5 @@
 # Ignore specific files
 /backend/Football_Championship_2023_Shots_With_Expected_Points.json
-/backend/DS_Player_Stats_Sorted_by_Difference_with_xPoints.json
 /frontend/src/components/firebaseold.js
 /frontend/src/components/firebasenew.js
 /frontend/.env

@@ -1,13 +1,13 @@
 # Ignore specific files
 /backend/Football_Championship_2023_Shots_With_Expected_Points.json
-/backend/DS_Player_Stats_Sorted_by_Difference_with_xPoints.json
 /frontend/src/components/firebaseold.js
 /frontend/src/components/firebasenew.js
 /frontend/.env
+/Users/fechinmitchell/Projects/GAAStudio/backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0.json
 backend/gaastudio-63c5a587ce6a.json
 /Users/fechinmitchell/Projects/GAAStudio/GAAStudio-clean
 /Users/fechinmitchell/Projects/GAAStudio/.history
-/backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0.json
+/Users/fechinmitchell/Projects/GAAStudio/backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0.json
 
 # Properly ignore node_modules directory
 node_modules/
