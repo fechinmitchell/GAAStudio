@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: gaa-studio-backend
+    env: python
+    region: oregon
+    buildCommand: "pip install --no-cache-dir -r requirements.txt"
+    startCommand: "gunicorn --bind 0.0.0.0:5000 app:app"
+    envVars:
+      - key: FIREBASE_TYPE
+        value: service_account
+      - key: FIREBASE_PROJECT_ID
+        value: gaastudio-2a7ac
+      - key: FIREBASE_PRIVATE_KEY_ID
+        value: a10063e0b00b240e1683e66380a1f8db168ad6bd
+      - key: FIREBASE_PRIVATE_KEY
+        value: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC7OLYWeWsABLAL
+          vbdOVgB0e3BFStaWnLLnKqlvWMpZY9Yoqo9/RoTAjb0wOedx73NFZMUFbQl91rgs
+          cQ3ZafOfH6iVkmR659H6/nY6Z5SMFyPgkGIuutslTlWGM08q7vEzf8B93Eos6iYz
+          zA8fLjJ4tyZo0HDK3gbH3yzppo/QlPyGO/jEWxvt+04pjo3TluCElx5mP3AmqSps
+          YOGoRoEul1PhZATDiKJBnH6aRirw6wKXLlkaJZlFucppQP3rsKEbqWoQ6A6n3DGv
+          UI5MFGr+WK8A44uJq8CCuvVnOYtNTVIMbfGGnlgnF/7e2o/VcxXpNOZUeybeJi8v
+          0IBslsMTAgMBAAECggEANe9ghZj0+kxfawJ8jFS6TNRCw7OLnlgGMhJYPXuWz6mz
+          SIPaUxA9rjsnBX2o72nMC3G8UJPY6CezZxoqozeit3SnXG+QAthF5cjoxmqQoMsJ
+          yufNYSjzeQvYF5EwfW3Yjr1+9sM/mzDZUJK4yILGh4A70HY8CDVuPqZMigMx6ySC
+          Hg/1dUU7GCfPNC9q+MdcIUnNn6TQ3L51X1xSG86+gMJNR1BLK/0FOvUAqvPy1ecE
+          C466WwPEBy/6e3N1LNGwxGKFUuLVDg7QfRM7HGdTsxihpwq/6M/JIAKV2M4akLRf
+          53CyyzMj1saU2ALMEJHj+YlpdUapaEqRv1w0ksuWAQKBgQDr13Z0cPUyXtnCnn13
+          ruH7r1FjbL1LKtry9Wg+SfTyKzfuAcMHEGrE46MB0YJbnvBVqgtes1f0l24CI8Lk
+          uGVxnXxJl7a5b54yn1UECGyHjUOAlfPmn91UtxiCvpW6kgAmvwPw+xB/UdYAbTBi
+          GwJ12PV2Iodv97t/xZVf30Hg3wKBgQDLOV+4UpoxMBFkHOARQmWkEKLQ+bE3L6pk
+          L5JvaElkR+rsQGvOBXI9zSF3JOfad8/NN4M5L0ovYTmJM4ODgG87V7tQWIoso1zS
+          pMJfGKq1Fxk9LLhx4ciJhS8rIMayzw7lgGOSY/0nqwdClcqqbarsRk23X0ryJDF9
+          0OAsEF3gTQKBgQCeGAVT8RSs+2BGUjARNq5OJSwN1ireZI/5JgEHIFSOseIALjYq
+          Whr4eRAge+1Ctbyt8BtHFDn1wD0COi6/W8zE6KkUPBtFG0mU7bHzziHSjCOf4uVo
+          x+l6jHJl0pRUSOLJFmrx85sPfjBSgN9aJHj1vsZstqDLsemCsVR8vBBRSQKBgQCP
+          TvNAIQfY3eO1rGMZ6K+SRaT7JskgeH14zs89vtXaYJi6ZydejhqkmC4cPas+NTUV
+          qyrfPYjb5nzTUr9QEVbfCxvtKbKujbjcVhE3TEa9Ev/aUtnyfNyUlZXQnPlhiIAh
+          uSr+RYJ04bdp7gWPr2xT17PgNtO782fvKEec6yG4FQKBgQC6JAty+S/BsFAtoifM
+          iUev1tqqd0AWQsez0q9aO+rjIhIa6kh1+DMesWYymO9aaMDqej+5iEXzPQQjdXqG
+          WKXWOQykAjFck7hg/zrALhtI7GSUnE37XOOmRMrTbZJgEGJs0L2LQHI7/j7vOB8p
+          ci9QxYWNIa9TrHYj0iionkgW5g==
+          -----END PRIVATE KEY-----
+      - key: FIREBASE_CLIENT_EMAIL
+        value: firebase-adminsdk-pxkjd@gaastudio-2a7ac.iam.gserviceaccount.com
+      - key: FIREBASE_CLIENT_ID
+        value: 100589804799267688451
+      - key: FIREBASE_AUTH_URI
+        value: https://accounts.google.com/o/oauth2/auth
+      - key: FIREBASE_TOKEN_URI
+        value: https://oauth2.googleapis.com/token
+      - key: FIREBASE_AUTH_PROVIDER_CERT_URL
+        value: https://www.googleapis.com/oauth2/v1/certs
+      - key: FIREBASE_CLIENT_CERT_URL
+        value: https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-pxkjd%40gaastudio-2a7ac.iam.gserviceaccount.com
+      - key: FIREBASE_UNIVERSE_DOMAIN
+        value: googleapis.com
+    mounts:
+      - type: bind
+        source: ./backend
+        target: /opt/render/project/src/backend
