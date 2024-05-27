@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
@@ -6,6 +7,8 @@ import datetime
 import pandas as pd
 from dotenv import load_dotenv
 import os
+
+logging.basicConfig(level=logging.DEBUG)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -30,19 +33,23 @@ firebase_config = {
     "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
 }
 
+logging.info("Initializing Firebase Admin")
 cred = credentials.Certificate(firebase_config)
 firebase_admin.initialize_app(cred, {
     'storageBucket': os.getenv('FIREBASE_PROJECT_ID') + '.appspot.com'
 })
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://your-netlify-site.netlify.app"}})
+CORS(app, resources={r"/*": {"origins": "https://gaastudio.onrender.com"}})
 
 @app.route('/test-image-url')
 def test_image_url():
+    logging.info("Accessed /test-image-url")
     path = 'datasets/ASD/Armagh_average_shot_positions.png'
     url = generate_signed_url(path)
+    logging.debug(f"Generated signed URL: {url}")
     return jsonify({'url': url})
+
 
 @app.route('/players', methods=['GET'])
 def get_player_stats():
@@ -59,7 +66,7 @@ def generate_signed_url(blob_path):
     bucket = storage.bucket()
     blob = bucket.blob(blob_path)
     signed_url = blob.generate_signed_url(expiration=datetime.timedelta(hours=1), method='GET')
-    print(f"Generated signed URL: {signed_url}")  # Log the URL
+    logging.debug(f"Generated signed URL for {blob_path}: {signed_url}")
     return signed_url
 
 @app.route('/pressuremaps/<team>')
@@ -138,7 +145,12 @@ def get_scoring_zone_efficiency():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/health')
+def health_check():
+    return 'OK', 200
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, port=port, host='0.0.0.0')
+    logging.info("Starting Flask app")
+    app.run(debug=True, port=5000)
+
 
