@@ -33,7 +33,7 @@ firebase_config = {
     "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
 }
 
-logging.info("Initializing Firebase Admin")
+logging.info("Initializing Firebase Admin with the following config: %s", firebase_config)
 cred = credentials.Certificate(firebase_config)
 firebase_admin.initialize_app(cred, {
     'storageBucket': os.getenv('FIREBASE_PROJECT_ID') + '.appspot.com'
@@ -152,5 +152,6 @@ def health_check():
 if __name__ == '__main__':
     logging.info("Starting Flask app")
     app.run(debug=True, port=5000)
+
 
 
