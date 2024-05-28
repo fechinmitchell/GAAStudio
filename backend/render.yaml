@@ -11,7 +11,7 @@ services:
       - key: FIREBASE_PROJECT_ID
         value: gaastudio-2a7ac
       - key: FIREBASE_PRIVATE_KEY_ID
-        value: a10063e0b00b240e1683e66380a1f8db168ad6bd
+        value: 41f95010218d6641a9fbf585eee2a4fb3caf6d1b
       - key: FIREBASE_PRIVATE_KEY
         value: ${{ FIREBASE_PRIVATE_KEY }}
       - key: FIREBASE_CLIENT_EMAIL
@@ -32,3 +32,5 @@ services:
       - type: bind
         source: ./backend
         target: /opt/render/project/src/backend
+
+
