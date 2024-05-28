@@ -44,7 +44,7 @@ except Exception as e:
     raise
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://your-netlify-site.netlify.app"}})
+CORS(app, resources={r"/*": {"origins": "https://gaastudio.onrender.com"}})
 
 @app.route('/test-image-url')
 def test_image_url():
@@ -157,12 +157,7 @@ def get_scoring_zone_efficiency():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/health')
-def health_check():
-    return 'OK', 200
-
 if __name__ == '__main__':
-    logging.info("Starting Flask app")
     app.run(debug=True, port=5000)
 
 
