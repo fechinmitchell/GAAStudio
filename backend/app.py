@@ -46,6 +46,10 @@ except Exception as e:
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://gaastudio.onrender.com"}})
 
+@app.route('/healthz')
+def health_check():
+    return "OK", 200
+
 @app.route('/test-image-url')
 def test_image_url():
     logging.info("Accessed /test-image-url")
