@@ -44,7 +44,7 @@ except Exception as e:
     raise
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://gaastudio.onrender.com"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaastudio.onrender.com"]}})
 
 @app.route('/healthz')
 def health_check():
