@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useTheme, useMediaQuery } from '@mui/material';
@@ -14,37 +13,23 @@ import { auth } from './components/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
 
-=======
-import logging
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-import firebase_admin
-from firebase_admin import credentials, storage
-import datetime
-import pandas as pd
-from dotenv import load_dotenv
-import os
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-logging.basicConfig(level=logging.DEBUG)
-
-<<<<<<< HEAD
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function App() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-=======
-# Load environment variables from .env file
-load_dotenv()
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
 
-# Retrieve environment variables
-FIREBASE_PRIVATE_KEY = os.getenv("FIREBASE_PRIVATE_KEY")
-if FIREBASE_PRIVATE_KEY is None:
-    raise ValueError("Missing FIREBASE_PRIVATE_KEY in environment variables")
+  const [user, setUser] = useState(null);
+  const [teams, setTeams] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState('Galway');
+  const [currentPage, setCurrentPage] = useState('attacking');
+  const [dataType, setDataType] = useState('shots');
+  const [heatMapUrl, setHeatMapUrl] = useState('');
+  const [scoringZoneEfficiency, setScoringZoneEfficiency] = useState({ inside: 0, outside: 0 });
+  const [error, setError] = useState(null);
 
-<<<<<<< HEAD
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
@@ -71,170 +56,76 @@ if FIREBASE_PRIVATE_KEY is None:
           setError(error.toString());
         });
 
-
-        if (selectedTeam && dataType) {
-          axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
-            .then(response => setHeatMapUrl(response.data.url))
-            .catch(error => {
-              console.error('Error fetching heatmap URL:', error);
-              setError(error.toString());
-            });
-        }
+      if (selectedTeam && dataType) {
+        axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
+          .then(response => setHeatMapUrl(response.data.url))
+          .catch(error => {
+            console.error('Error fetching heatmap URL:', error);
+            setError(error.toString());
+          });
       }
-    }, [selectedTeam, dataType, user]);
-  
-    function handleNavigate(page) {
-      setCurrentPage(page);
     }
-  
-    if (error) {
-      return <div>An error occurred: {error}</div>;
-    }
-=======
-# Initialize Firebase Admin with environment variables
-try:
-    firebase_config = {
-        "type": os.getenv("FIREBASE_TYPE"),
-        "project_id": os.getenv("FIREBASE_PROJECT_ID"),
-        "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
-        "private_key": FIREBASE_PRIVATE_KEY.replace('\\n', '\n'),
-        "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
-        "client_id": os.getenv("FIREBASE_CLIENT_ID"),
-        "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
-        "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
-        "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_CERT_URL"),
-        "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_CERT_URL"),
-        "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
-    }
-    logging.info("Initializing Firebase Admin")
-    cred = credentials.Certificate(firebase_config)
-    firebase_admin.initialize_app(cred, {
-        'storageBucket': f"{os.getenv('FIREBASE_PROJECT_ID')}.appspot.com"
-    })
-    logging.info("Firebase Admin initialized successfully.")
-except Exception as e:
-    logging.error(f"Error initializing Firebase Admin: {e}")
-    raise
+  }, [selectedTeam, dataType, user]);
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaa-studio.vercel.app"]}})
+  function handleNavigate(page) {
+    setCurrentPage(page);
+  }
 
-@app.route('/healthz')
-def health_check():
-    return "OK", 200
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
+  if (error) {
+    return <div>An error occurred: {error}</div>;
+  }
 
-@app.route('/test-image-url')
-def test_image_url():
-    logging.info("Accessed /test-image-url")
-    try:
-        path = 'datasets/ASD/Armagh_average_shot_positions.png'
-        url = generate_signed_url(path)
-        logging.debug(f"Generated signed URL: {url}")
-        return jsonify({'url': url})
-    except Exception as e:
-        logging.error(f"Error generating signed URL: {e}")
-        return jsonify({'error': str(e)}), 500
+  if (!user) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="*" element={<Navigate replace to="/signin" />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 
-@app.route('/players', methods=['GET'])
-def get_player_stats():
-    try:
-        path = 'backend/DS_Player_Stats_Sorted_by_Difference_with_xPoints.json'
-        url = generate_signed_url(path)
-        response = pd.read_json(url)
-        player_stats_json = response.to_dict(orient='records')
-        return jsonify(player_stats_json)
-    except Exception as e:
-        logging.error(f"Error fetching player stats: {e}")
-        return jsonify({'error': str(e)}), 500
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <header className="App-header">
+          GAA Studio - Analytics Dashboard
+        </header>
+        <div className="main-container">
+          {!isMobile && (
+            <div className="App-sidebar">
+              <Sidebar
+                onNavigate={handleNavigate}
+                teams={teams}
+                selectedTeam={selectedTeam}
+                setSelectedTeam={setSelectedTeam}
+              />
+            </div>
+          )}
+          <div className="content-area">
+            {currentPage === 'attacking' && (
+              <Attacking
+                selectedTeam={selectedTeam}
+                setSelectedTeam={setSelectedTeam}
+                scoringZoneEfficiency={scoringZoneEfficiency}
+                heatMapUrl={heatMapUrl}
+                setDataType={setDataType}
+              />
+            )}
+            {currentPage === 'players' && (
+              <Players />
+            )}
+            {currentPage === 'defending' && (
+              <Defending selectedTeam={selectedTeam} />
+            )}
+          </div>
+        </div>
+      </div>
+    </BrowserRouter>
+  );
+}
 
-def generate_signed_url(blob_path):
-    try:
-        bucket = storage.bucket()
-        blob = bucket.blob(blob_path)
-        signed_url = blob.generate_signed_url(expiration=datetime.timedelta(hours=1), method='GET')
-        logging.debug(f"Generated signed URL: {signed_url}")
-        return signed_url
-    except Exception as e:
-        logging.error(f"Error generating signed URL for {blob_path}: {e}")
-        raise
-
-@app.route('/pressuremaps/<team>')
-def get_pressure_map(team):
-    path = f"datasets/Pressure/{team}_Pressure_Map.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/tacklesmaps/<team>')
-def get_tackle_map(team):
-    path = f"datasets/Tackles/{team}_unsuccesful_tackles.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/blockedmaps/<team>')
-def get_blocked_map(team):
-    path = f"datasets/Blocked/{team}_block_points.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/sdpmchart/<team>')
-def get_sdpm_chart(team):
-    path = f"datasets/SDPM/{team}_SDPM_Chart.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/asdmap/<team>')
-def get_asd_map(team):
-    path = f"datasets/ASD/{team}_average_shot_positions.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/ppmaps/<team>')
-def get_pp_map(team):
-    path = f"datasets/PP/{team}_pressure_points.png"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/heatmaps/<team>/<category>')
-def get_heatmap(team, category):
-    path = f"datasets/{category.capitalize()}/{team}_{category.lower()}_heat_map.jpg"
-    return jsonify({'url': generate_signed_url(path)})
-
-@app.route('/teams', methods=['GET'])
-def get_teams():
-    try:
-        df = get_dataframe_from_firebase('backend/Football_Championship_2023_Shots_With_Expected_Points.json')
-        teams = df['TeamName'].unique().tolist()
-        return jsonify(teams)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-def get_dataframe_from_firebase(blob_name):
-    url = generate_signed_url(blob_name)
-    return pd.read_json(url)
-
-GOAL_LINE = 145
-SCORING_ZONE_DEPTH = 32
-CENTER_WIDTH = 44
-SCORING_ZONE_HALF_WIDTH = 28
-
-def is_within_scoring_zone(x, y):
-    return (GOAL_LINE - SCORING_ZONE_DEPTH) <= x <= GOAL_LINE and \
-           (CENTER_WIDTH - SCORING_ZONE_HALF_WIDTH) <= y <= (CENTER_WIDTH + SCORING_ZONE_HALF_WIDTH)
-
-@app.route('/scoring-zone-efficiency', methods=['GET'])
-def get_scoring_zone_efficiency():
-    team_name = request.args.get('team')
-    if not team_name:
-        return jsonify({'error': 'Team name is required'}), 400
-    try:
-        df = get_dataframe_from_firebase('backend/Football_Championship_2023_Shots_With_Expected_Points.json')
-        team_data = df[df['TeamName'] == team_name]
-        team_data.loc[:, 'is_scoring_zone'] = team_data.apply(lambda row: is_within_scoring_zone(row['x'], row['y']), axis=1)
-        scoring_zone_counts = team_data.groupby('is_scoring_zone')['Score'].value_counts().unstack().fillna(0)
-        scoring_zone_counts['success_rate'] = scoring_zone_counts['Score'] / (scoring_zone_counts['Score'] + scoring_zone_counts.get('Miss', 0))
-        response_data = {
-            'inside_scoring_zone': scoring_zone_counts.loc[True].to_dict(),
-            'outside_scoring_zone': scoring_zone_counts.loc[False].to_dict()
-        }
-        return jsonify(response_data)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
-
+export default App;

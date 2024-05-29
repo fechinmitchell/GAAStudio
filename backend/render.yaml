@@ -32,6 +32,3 @@ services:
       - type: bind
         source: ./backend
         target: /opt/render/project/src/backend
-
-
-
