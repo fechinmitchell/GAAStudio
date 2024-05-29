@@ -19,9 +19,7 @@ function Defending({ selectedTeam }) {
             } catch (error) {
                 console.error('Error fetching map URL:', error);
             } finally {
-                setTimeout(() => {
-                    setLoading(false);
-                }, 1000); // Simulate longer loading time
+                setLoading(false);
             }
         };
 
@@ -37,7 +35,7 @@ function Defending({ selectedTeam }) {
         return (
             <div className="loading-container">
                 <Spinner animation="border" role="status" />
-                <span className="loading-text">GAA Studio</span>
+                <span className="loading-text">Loading...</span>
             </div>
         );
     }

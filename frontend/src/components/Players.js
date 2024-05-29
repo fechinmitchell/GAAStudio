@@ -16,10 +16,9 @@ function Players() {
         setPlayerStats(response.data);
       } catch (error) {
         console.error('Error fetching player stats:', error);
-      }
-      setTimeout(() => {
+      } finally {
         setLoading(false);
-      }, 500); // Simulate longer loading time
+      }
     };
     fetchData();
   }, []);
@@ -46,13 +45,13 @@ function Players() {
       direction = 'descending';
     }
     setSortConfig({ key, direction });
-  }
-  
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
         <Spinner animation="border" role="status" />
-        <span className="loading-text">GAA Studio</span>
+        <span className="loading-text">Loading...</span>
       </div>
     );
   }
