@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
@@ -6,6 +7,8 @@ import datetime
 import pandas as pd
 from dotenv import load_dotenv
 import os
+
+logging.basicConfig(level=logging.DEBUG)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,33 +19,48 @@ if FIREBASE_PRIVATE_KEY is None:
     raise ValueError("Missing FIREBASE_PRIVATE_KEY in environment variables")
 
 # Initialize Firebase Admin with environment variables
-firebase_config = {
-    "type": os.getenv("FIREBASE_TYPE"),
-    "project_id": os.getenv("FIREBASE_PROJECT_ID"),
-    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
-    "private_key": FIREBASE_PRIVATE_KEY.replace('\\n', '\n'),
-    "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
-    "client_id": os.getenv("FIREBASE_CLIENT_ID"),
-    "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
-    "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
-    "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_CERT_URL"),
-    "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_CERT_URL"),
-    "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
-}
-
-cred = credentials.Certificate(firebase_config)
-firebase_admin.initialize_app(cred, {
-    'storageBucket': os.getenv('FIREBASE_PROJECT_ID') + '.appspot.com'
-})
+try:
+    firebase_config = {
+        "type": os.getenv("FIREBASE_TYPE"),
+        "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+        "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+        "private_key": FIREBASE_PRIVATE_KEY.replace('\\n', '\n'),
+        "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+        "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+        "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+        "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+        "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_CERT_URL"),
+        "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_CERT_URL"),
+        "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN")
+    }
+    logging.info("Initializing Firebase Admin")
+    cred = credentials.Certificate(firebase_config)
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': f"{os.getenv('FIREBASE_PROJECT_ID')}.appspot.com"
+    })
+    logging.info("Firebase Admin initialized successfully.")
+except Exception as e:
+    logging.error(f"Error initializing Firebase Admin: {e}")
+    raise
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://your-netlify-site.netlify.app"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaastudio.onrender.com"]}})
+
+@app.route('/healthz')
+def health_check():
+    return "OK", 200
 
 @app.route('/test-image-url')
 def test_image_url():
-    path = 'datasets/ASD/Armagh_average_shot_positions.png'
-    url = generate_signed_url(path)
-    return jsonify({'url': url})
+    logging.info("Accessed /test-image-url")
+    try:
+        path = 'datasets/ASD/Armagh_average_shot_positions.png'
+        url = generate_signed_url(path)
+        logging.debug(f"Generated signed URL: {url}")
+        return jsonify({'url': url})
+    except Exception as e:
+        logging.error(f"Error generating signed URL: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/players', methods=['GET'])
 def get_player_stats():
@@ -53,14 +71,19 @@ def get_player_stats():
         player_stats_json = response.to_dict(orient='records')
         return jsonify(player_stats_json)
     except Exception as e:
+        logging.error(f"Error fetching player stats: {e}")
         return jsonify({'error': str(e)}), 500
 
 def generate_signed_url(blob_path):
-    bucket = storage.bucket()
-    blob = bucket.blob(blob_path)
-    signed_url = blob.generate_signed_url(expiration=datetime.timedelta(hours=1), method='GET')
-    print(f"Generated signed URL: {signed_url}")  # Log the URL
-    return signed_url
+    try:
+        bucket = storage.bucket()
+        blob = bucket.blob(blob_path)
+        signed_url = blob.generate_signed_url(expiration=datetime.timedelta(hours=1), method='GET')
+        logging.debug(f"Generated signed URL: {signed_url}")
+        return signed_url
+    except Exception as e:
+        logging.error(f"Error generating signed URL for {blob_path}: {e}")
+        raise
 
 @app.route('/pressuremaps/<team>')
 def get_pressure_map(team):
@@ -140,3 +163,6 @@ def get_scoring_zone_efficiency():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
