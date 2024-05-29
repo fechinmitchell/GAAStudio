@@ -3,7 +3,6 @@ Flask-CORS
 firebase-admin
 pandas
 gunicorn
-<<<<<<< HEAD
 python-dotenv
 =======
 python-dotenv
