@@ -16,6 +16,8 @@ import 'chartjs-plugin-datalabels';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataType }) {
   const [playerStats, setPlayerStats] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'PlayerName', direction: 'ascending' });
@@ -25,54 +27,77 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
   const [loadingCharts, setLoadingCharts] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (selectedTeam) {
       setLoadingCharts(true);
-      axios.get(`/sdpmchart/${encodeURIComponent(selectedTeam)}`)
+      axios.get(`${API_BASE_URL}/sdpmchart/${encodeURIComponent(selectedTeam)}`)
         .then(response => {
-          setSDPMChartUrl(response.data.url);
+          if (isMounted) {
+            setSDPMChartUrl(response.data.url);
+          }
         })
         .catch(error => {
           console.error('Error fetching SDPM chart URL:', error);
         });
 
-      axios.get(`/asdmap/${encodeURIComponent(selectedTeam)}`)
+      axios.get(`${API_BASE_URL}/asdmap/${encodeURIComponent(selectedTeam)}`)
         .then(response => {
-          setASDMapUrl(response.data.url);
+          if (isMounted) {
+            setASDMapUrl(response.data.url);
+          }
         })
         .catch(error => {
           console.error('Error fetching ASD map URL:', error);
         })
         .finally(() => {
           setTimeout(() => {
-            setLoadingCharts(false);
-          }, 2000); // Simulate longer loading time
+            if (isMounted) {
+              setLoadingCharts(false);
+            }
+          }, 2000);
         });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [selectedTeam]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('/players');
-        console.log("Fetched data:", response.data);  // Log the data received from the backend
-        if (response.data && response.data.length) {
-          setPlayerStats(response.data);
-        } else {
-          console.log('No data returned from API');
+        const response = await axios.get(`${API_BASE_URL}/players`);
+        if (isMounted) {
+          if (Array.isArray(response.data)) {
+            setPlayerStats(response.data);
+          } else {
+            console.log('No data returned from API or invalid data format');
+          }
         }
       } catch (error) {
-        console.error('Error fetching player stats:', error);
+        if (isMounted) {
+          console.error('Error fetching player stats:', error);
+        }
       }
       setTimeout(() => {
-        setIsLoading(false);
-      }, 1000); // Simulate longer loading time
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }, 1000);
     };
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const sortedPlayerStats = React.useMemo(() => {
-    if (!playerStats.length) return [];
+    if (!Array.isArray(playerStats) || playerStats.length === 0) return [];
     
     return playerStats.filter(player => player.TeamName === selectedTeam).sort((a, b) => {
       const isAsc = sortConfig.direction === 'ascending';
@@ -132,7 +157,7 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
     scales: {
       y: {
         beginAtZero: true,
-        max: 100, // Set the maximum value to 100%
+        max: 100,
         ticks: {
           callback: value => `${value}%`,
         },
@@ -213,4 +238,3 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
 }
 
 export default Attacking;
-

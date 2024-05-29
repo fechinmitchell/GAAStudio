@@ -11,8 +11,12 @@ import SignUp from './components/SignUp';
 import Defending from './components/Defending';
 import { auth } from './components/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import axios from 'axios';
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function App() {
   const theme = useTheme();
@@ -36,53 +40,42 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      fetch('/teams')
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
-        .then(data => setTeams(data))
+      axios.get(`${API_BASE_URL}/teams`)
+        .then(response => setTeams(response.data))
         .catch(error => {
           console.error('Error fetching team data:', error);
           setError(error.toString());
         });
 
-      fetch(`/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-          return response.json();
-        })
-        .then(data => setScoringZoneEfficiency({
-          inside: data.inside_scoring_zone.success_rate || 0,
-          outside: data.outside_scoring_zone.success_rate || 0
+      axios.get(`${API_BASE_URL}/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
+        .then(response => setScoringZoneEfficiency({
+          inside: response.data.inside_scoring_zone.success_rate || 0,
+          outside: response.data.outside_scoring_zone.success_rate || 0
         }))
         .catch(error => {
           console.error('Error fetching scoring zone efficiency:', error);
           setError(error.toString());
         });
 
-      if (selectedTeam && dataType) {
-        fetch(`/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
-          .then(response => {
-            if (!response.ok) throw new Error(`HTTP status ${response.status}`);
-            return response.json();
-          })
-          .then(data => setHeatMapUrl(data.url))
-          .catch(error => {
-            console.error('Error fetching heatmap URL:', error);
-            setError(error.toString());
-          });
+
+        if (selectedTeam && dataType) {
+          axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
+            .then(response => setHeatMapUrl(response.data.url))
+            .catch(error => {
+              console.error('Error fetching heatmap URL:', error);
+              setError(error.toString());
+            });
+        }
       }
+    }, [selectedTeam, dataType, user]);
+  
+    function handleNavigate(page) {
+      setCurrentPage(page);
     }
-  }, [selectedTeam, dataType, user]);
-
-  function handleNavigate(page) {
-    setCurrentPage(page);
-  }
-
-  if (error) {
-    return <div>An error occurred: {error}</div>;
-  }
+  
+    if (error) {
+      return <div>An error occurred: {error}</div>;
+    }
 
   if (!user) {
     return (
