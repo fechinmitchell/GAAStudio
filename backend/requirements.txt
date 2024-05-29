@@ -4,6 +4,3 @@ firebase-admin
 pandas
 gunicorn
 python-dotenv
-=======
-python-dotenv
->>>>>>> 71bd6008138fdf553bf15e0c72753ac17ecab9db
