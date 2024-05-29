@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useTheme, useMediaQuery } from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Sidebar from './components/Sidebar';
-import Attacking from './components/Attacking';
-import Players from './components/Players';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import Defending from './components/Defending';
-import { auth } from './components/firebase';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import axios from 'axios';
-
-=======
 import logging
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -24,73 +7,17 @@ import datetime
 import pandas as pd
 from dotenv import load_dotenv
 import os
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
 
 logging.basicConfig(level=logging.DEBUG)
 
-<<<<<<< HEAD
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-
-function App() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-=======
 # Load environment variables from .env file
 load_dotenv()
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
 
 # Retrieve environment variables
 FIREBASE_PRIVATE_KEY = os.getenv("FIREBASE_PRIVATE_KEY")
 if FIREBASE_PRIVATE_KEY is None:
     raise ValueError("Missing FIREBASE_PRIVATE_KEY in environment variables")
 
-<<<<<<< HEAD
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      axios.get(`${API_BASE_URL}/teams`)
-        .then(response => setTeams(response.data))
-        .catch(error => {
-          console.error('Error fetching team data:', error);
-          setError(error.toString());
-        });
-
-      axios.get(`${API_BASE_URL}/scoring-zone-efficiency?team=${encodeURIComponent(selectedTeam)}`)
-        .then(response => setScoringZoneEfficiency({
-          inside: response.data.inside_scoring_zone.success_rate || 0,
-          outside: response.data.outside_scoring_zone.success_rate || 0
-        }))
-        .catch(error => {
-          console.error('Error fetching scoring zone efficiency:', error);
-          setError(error.toString());
-        });
-
-
-        if (selectedTeam && dataType) {
-          axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
-            .then(response => setHeatMapUrl(response.data.url))
-            .catch(error => {
-              console.error('Error fetching heatmap URL:', error);
-              setError(error.toString());
-            });
-        }
-      }
-    }, [selectedTeam, dataType, user]);
-  
-    function handleNavigate(page) {
-      setCurrentPage(page);
-    }
-  
-    if (error) {
-      return <div>An error occurred: {error}</div>;
-    }
-=======
 # Initialize Firebase Admin with environment variables
 try:
     firebase_config = {
@@ -117,12 +44,11 @@ except Exception as e:
     raise
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaa-studio.vercel.app"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaastudio.onrender.com"]}})
 
 @app.route('/healthz')
 def health_check():
     return "OK", 200
->>>>>>> 67a181c932ae41f6e06963385588c3d2a4c51f34
 
 @app.route('/test-image-url')
 def test_image_url():
@@ -237,4 +163,7 @@ def get_scoring_zone_efficiency():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
 
