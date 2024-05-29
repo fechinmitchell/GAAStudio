@@ -13,7 +13,6 @@ import { auth } from './components/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
 
-
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
@@ -57,25 +56,24 @@ function App() {
           setError(error.toString());
         });
 
-
-        if (selectedTeam && dataType) {
-          axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
-            .then(response => setHeatMapUrl(response.data.url))
-            .catch(error => {
-              console.error('Error fetching heatmap URL:', error);
-              setError(error.toString());
-            });
-        }
+      if (selectedTeam && dataType) {
+        axios.get(`${API_BASE_URL}/heatmaps/${encodeURIComponent(selectedTeam)}/${encodeURIComponent(dataType)}`)
+          .then(response => setHeatMapUrl(response.data.url))
+          .catch(error => {
+            console.error('Error fetching heatmap URL:', error);
+            setError(error.toString());
+          });
       }
-    }, [selectedTeam, dataType, user]);
-  
-    function handleNavigate(page) {
-      setCurrentPage(page);
     }
-  
-    if (error) {
-      return <div>An error occurred: {error}</div>;
-    }
+  }, [selectedTeam, dataType, user]);
+
+  function handleNavigate(page) {
+    setCurrentPage(page);
+  }
+
+  if (error) {
+    return <div>An error occurred: {error}</div>;
+  }
 
   if (!user) {
     return (
@@ -131,7 +129,6 @@ function App() {
 }
 
 export default App;
-
 
 
 
