@@ -29,6 +29,7 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
       setLoadingCharts(true);
       axios.get(`/sdpmchart/${encodeURIComponent(selectedTeam)}`)
         .then(response => {
+          console.log('SDPM chart URL response:', response);
           setSDPMChartUrl(response.data.url);
         })
         .catch(error => {
@@ -37,6 +38,7 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
 
       axios.get(`/asdmap/${encodeURIComponent(selectedTeam)}`)
         .then(response => {
+          console.log('ASD map URL response:', response);
           setASDMapUrl(response.data.url);
         })
         .catch(error => {
@@ -55,11 +57,11 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
       setIsLoading(true);
       try {
         const response = await axios.get('/players');
-        console.log("Fetched data:", response.data);  // Log the data received from the backend
-        if (response.data && response.data.length) {
+        console.log('Fetched player stats:', response.data);  // Log the data received from the backend
+        if (Array.isArray(response.data)) {
           setPlayerStats(response.data);
         } else {
-          console.log('No data returned from API');
+          console.log('No data returned from API or invalid data format');
         }
       } catch (error) {
         console.error('Error fetching player stats:', error);
@@ -72,7 +74,7 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
   }, []);
 
   const sortedPlayerStats = React.useMemo(() => {
-    if (!playerStats.length) return [];
+    if (!Array.isArray(playerStats) || playerStats.length === 0) return [];
     
     return playerStats.filter(player => player.TeamName === selectedTeam).sort((a, b) => {
       const isAsc = sortConfig.direction === 'ascending';
