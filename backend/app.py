@@ -1,5 +1,4 @@
-import logging
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, storage
@@ -7,6 +6,7 @@ import datetime
 import pandas as pd
 from dotenv import load_dotenv
 import os
+import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -44,11 +44,19 @@ except Exception as e:
     raise
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaastudio.onrender.com"]}})
+
+# Allow CORS for your Vercel domain
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaa-studio.vercel.app"]}})
 
 @app.route('/healthz')
 def health_check():
     return "OK", 200
+
+@app.route('/test-cors', methods=['GET'])
+def test_cors():
+    response = jsonify({'message': 'CORS is working!'})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route('/test-image-url')
 def test_image_url():
