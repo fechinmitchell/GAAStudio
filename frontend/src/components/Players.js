@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
 import './Players.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function Players() {
   const [playerStats, setPlayerStats] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
@@ -12,13 +14,14 @@ function Players() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('/players');
+        const response = await axios.get(`${API_BASE_URL}/players`);
         setPlayerStats(response.data);
       } catch (error) {
         console.error('Error fetching player stats:', error);
-      } finally {
-        setLoading(false);
       }
+      setTimeout(() => {
+        setLoading(false);
+      }, 500); // Simulate longer loading time
     };
     fetchData();
   }, []);
@@ -45,13 +48,13 @@ function Players() {
       direction = 'descending';
     }
     setSortConfig({ key, direction });
-  };
-
+  }
+  
   if (loading) {
     return (
       <div className="loading-container">
         <Spinner animation="border" role="status" />
-        <span className="loading-text">Loading...</span>
+        <span className="loading-text">GAA Studio</span>
       </div>
     );
   }

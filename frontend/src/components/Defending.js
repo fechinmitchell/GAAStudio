@@ -3,11 +3,14 @@ import { Image, Spinner } from 'react-bootstrap';
 import './Defending.css'; // Make sure the path is correct
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function Defending({ selectedTeam }) {
     const [pressureMapUrl, setPressureMapUrl] = useState('');
     const [PPMapUrl, setPPMapUrl] = useState('');
     const [blockedMapUrl, setBlockedMapUrl] = useState('');
     const [tacklesMapUrl, setTacklesMapUrl] = useState('');
+    const [sdpmChartUrl, setSdpmChartUrl] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -19,15 +22,18 @@ function Defending({ selectedTeam }) {
             } catch (error) {
                 console.error('Error fetching map URL:', error);
             } finally {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000); // Simulate longer loading time
             }
         };
 
         if (selectedTeam) {
-            fetchMapUrl(`/pressuremaps/${encodeURIComponent(selectedTeam)}`, setPressureMapUrl);
-            fetchMapUrl(`/blockedmaps/${encodeURIComponent(selectedTeam)}`, setBlockedMapUrl);
-            fetchMapUrl(`/ppmaps/${encodeURIComponent(selectedTeam)}`, setPPMapUrl);
-            fetchMapUrl(`/tacklesmaps/${encodeURIComponent(selectedTeam)}`, setTacklesMapUrl);
+            fetchMapUrl(`${API_BASE_URL}/pressuremaps/${encodeURIComponent(selectedTeam)}`, setPressureMapUrl);
+            fetchMapUrl(`${API_BASE_URL}/blockedmaps/${encodeURIComponent(selectedTeam)}`, setBlockedMapUrl);
+            fetchMapUrl(`${API_BASE_URL}/ppmaps/${encodeURIComponent(selectedTeam)}`, setPPMapUrl);
+            fetchMapUrl(`${API_BASE_URL}/tacklesmaps/${encodeURIComponent(selectedTeam)}`, setTacklesMapUrl);
+            fetchMapUrl(`${API_BASE_URL}/sdpmchart/${encodeURIComponent(selectedTeam)}`, setSdpmChartUrl);
         }
     }, [selectedTeam]);
 
@@ -35,7 +41,7 @@ function Defending({ selectedTeam }) {
         return (
             <div className="loading-container">
                 <Spinner animation="border" role="status" />
-                <span className="loading-text">Loading...</span>
+                <span className="loading-text">GAA Studio</span>
             </div>
         );
     }
@@ -75,3 +81,4 @@ function Defending({ selectedTeam }) {
 }
 
 export default Defending;
+
