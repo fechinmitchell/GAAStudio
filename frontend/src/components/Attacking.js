@@ -175,12 +175,12 @@ function Attacking({ selectedTeam, scoringZoneEfficiency, heatMapUrl, setDataTyp
       ) : (
         <>
           <div className="chart-and-heatmap-container">
-            <div className="chart-container">
+            <div className="chartContainer">
               <Bar data={chartData} options={chartOptions} />
             </div>
-            <div className="heatmap-container">
+            <div className="heatmapContainer">
               <Image src={heatMapUrl} alt="Heat Map" fluid />
-              <div className="button-group">
+              <div className="buttonGroup">
                 <Button variant="primary" size="sm" onClick={() => setDataType('shots')}>Shots</Button>
                 <Button variant="danger" size="sm" onClick={() => setDataType('miss')}>Misses</Button>
                 <Button variant="success" size="sm" onClick={() => setDataType('score')}>Scores</Button>

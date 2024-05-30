@@ -1,95 +1,101 @@
+/* App.css */
 .App {
   text-align: center;
 }
 
 .App-header {
-  background-color: #282c34; /* Dark gray background */
+  background-color: #282c34;
+  padding: 2px;
   color: white;
-  padding: 20px;
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed; /* Fix the header at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
-/* Add these styles for the main layout */
+.toggle-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  flex: 0 0 10%; /* Take up 10% of the width */
+}
+
+.App-header h1 {
+  font-size: 1.25em;
+  margin: 0;
+  flex: 1; /* Take up the remaining width */
+  text-align: center;
+}
+
 .main-container {
   display: flex;
-  height: calc(100vh - 64px); /* Adjust height to subtract the header height */
-  overflow: hidden; /* Prevent overflow outside this container */
+  height: 100vh;
+  margin-top: 60px; /* Adjust based on the height of your header */
 }
 
 .App-sidebar {
-  flex: 0 0 250px; /* Adjust width as needed */
-  height: 100%;
-  /* Add other styles for sidebar */
+  position: fixed; /* Fix the sidebar */
+  top: 60px; /* Adjust based on the height of your header */
+  left: 0;
+  width: 220px; /* Adjust width as needed */
+  height: calc(100vh - 60px); /* Full height minus the header */
+  background: #fff; /* Sidebar background color */
+  z-index: 999; /* Ensure it's above other content */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  transition: width 0.3s ease;
+}
+
+.App-sidebar.closed {
+  width: 0;
+  overflow: hidden;
 }
 
 .content-area {
-  flex-grow: 1;
-  overflow-y: auto; /* Enable vertical scrolling within content area */
+  flex: 1;
+  padding: 20px;
+  margin-left: 220px; /* Adjust this value to control the distance between the sidebar and content */
+  transition: margin-left 0.3s ease;
 }
 
-/* Optional: If you have other controls in the header that you want to layout */
-.header-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.content-area.with-sidebar {
+  margin-left: 220px; /* Adjust this value to control the distance between the sidebar and content */
 }
 
-.team-selector {
-  margin: 20px auto;
+.content-area.without-sidebar {
+  margin-left: 0;
 }
 
-.team-data {
-  margin: 20px auto;
-  padding: 10px;
-  max-width: 600px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  text-align: left;
-}
-
-.chart-container {
-  padding: 10px;
-  width: 90%;
-  margin: auto;
-}
-
-/* Responsive adjustments for the chart and heatmap containers */
 @media (max-width: 768px) {
-  .chart-container,
-  .heatmap-container {
-    max-width: 100%;
+  .App-header h1 {
+    font-size: 1.2em;
+  }
+
+  .content-area.with-sidebar {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    position: absolute;
+    width: 250px;
+    height: 100vh;
+    z-index: 1000;
+  }
+
+  .App-sidebar.closed {
+    width: 0;
+    opacity: 0;
+  }
+
+  .App-sidebar.open {
+    width: 250px;
+    opacity: 1;
   }
 }
 
-/* Responsive image styles */
-.heatmap-image {
-  max-width: 100%;
-  height: auto;
-  margin: 20px 0;
-}
 
-.heatmap-container {
-  width: 100%;
-  margin: auto;
-}
-
-/* Styles for the buttons */
-.MuiButton-root {
-  margin: 8px; /* Space around buttons */
-  padding: 10px 20px; /* Padding inside buttons */
-}
-
-/* Responsive font sizes and padding for the header */
-@media (max-width: 768px) {
-  .App-header {
-    padding: 15px;
-    font-size: 20px;
-  }
-}
-
-/* Ensures the sidebar scales or hides on smaller screens */
-@media (max-width: 768px) {
-  .App-sidebar {
-    display: none; /* You might want to hide the sidebar on very small screens */
-  }
-}

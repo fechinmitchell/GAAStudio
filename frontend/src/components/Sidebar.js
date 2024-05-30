@@ -4,7 +4,7 @@ import { auth, firestore } from './firebase'; // Ensure these are correctly impo
 import { doc, getDoc } from 'firebase/firestore';
 import './Sidebar.css';
 
-function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam }) {
+function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam, sidebarOpen }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
 
@@ -37,10 +37,14 @@ function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam }) {
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <div className="sidebar-header">
-        {/* Placeholder for team logo or user avatar */}
-        <h3>{userName || "User's Name"}</h3> {/* Display the fetched user's name or a placeholder */}
-      </div>
+        {sidebarOpen && (
+          <>
+            <div className="sidebar-header">
+              {/* Placeholder for team logo or user avatar */}
+              <h3>{userName || "User's Name"}</h3> {/* Display the fetched user's name or a placeholder */}
+            </div>
+          </>
+        )}
       </div>
       <div className="team-selector">
         <select

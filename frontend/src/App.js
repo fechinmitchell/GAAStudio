@@ -12,6 +12,7 @@ import Defending from './components/Defending';
 import { auth } from './components/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
+import { FaBars } from 'react-icons/fa';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -29,6 +30,7 @@ function App() {
   const [heatMapUrl, setHeatMapUrl] = useState('');
   const [scoringZoneEfficiency, setScoringZoneEfficiency] = useState({ inside: 0, outside: 0 });
   const [error, setError] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar open by default
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -71,6 +73,10 @@ function App() {
     setCurrentPage(page);
   }
 
+  function toggleSidebar() {
+    setSidebarOpen(!sidebarOpen);
+  }
+
   if (error) {
     return <div>An error occurred: {error}</div>;
   }
@@ -92,20 +98,22 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          GAA Studio - Analytics Dashboard
+          <button className="toggle-button" onClick={toggleSidebar}>
+            <FaBars />
+          </button>
+          <h1>GAA Studio - Analytics Dashboard</h1>
         </header>
         <div className="main-container">
-          {!isMobile && (
-            <div className="App-sidebar">
-              <Sidebar
-                onNavigate={handleNavigate}
-                teams={teams}
-                selectedTeam={selectedTeam}
-                setSelectedTeam={setSelectedTeam}
-              />
-            </div>
-          )}
-          <div className="content-area">
+          <div className={`App-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
+            <Sidebar
+              onNavigate={handleNavigate}
+              teams={teams}
+              selectedTeam={selectedTeam}
+              setSelectedTeam={setSelectedTeam}
+              sidebarOpen={sidebarOpen} // Pass sidebarOpen prop
+            />
+          </div>
+          <div className={`content-area ${sidebarOpen ? 'with-sidebar' : 'without-sidebar'}`}>
             {currentPage === 'attacking' && (
               <Attacking
                 selectedTeam={selectedTeam}

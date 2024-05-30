@@ -10,14 +10,13 @@ function Defending({ selectedTeam }) {
     const [PPMapUrl, setPPMapUrl] = useState('');
     const [blockedMapUrl, setBlockedMapUrl] = useState('');
     const [tacklesMapUrl, setTacklesMapUrl] = useState('');
-    const [sdpmChartUrl, setSdpmChartUrl] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchMapUrl = async (endpoint, setUrl) => {
             try {
                 setLoading(true);
-                const response = await axios.get(endpoint);
+                const response = await axios.get(`${API_BASE_URL}${endpoint}`);
                 setUrl(response.data.url);
             } catch (error) {
                 console.error('Error fetching map URL:', error);
@@ -29,11 +28,10 @@ function Defending({ selectedTeam }) {
         };
 
         if (selectedTeam) {
-            fetchMapUrl(`${API_BASE_URL}/pressuremaps/${encodeURIComponent(selectedTeam)}`, setPressureMapUrl);
-            fetchMapUrl(`${API_BASE_URL}/blockedmaps/${encodeURIComponent(selectedTeam)}`, setBlockedMapUrl);
-            fetchMapUrl(`${API_BASE_URL}/ppmaps/${encodeURIComponent(selectedTeam)}`, setPPMapUrl);
-            fetchMapUrl(`${API_BASE_URL}/tacklesmaps/${encodeURIComponent(selectedTeam)}`, setTacklesMapUrl);
-            fetchMapUrl(`${API_BASE_URL}/sdpmchart/${encodeURIComponent(selectedTeam)}`, setSdpmChartUrl);
+            fetchMapUrl(`/pressuremaps/${encodeURIComponent(selectedTeam)}`, setPressureMapUrl);
+            fetchMapUrl(`/blockedmaps/${encodeURIComponent(selectedTeam)}`, setBlockedMapUrl);
+            fetchMapUrl(`/ppmaps/${encodeURIComponent(selectedTeam)}`, setPPMapUrl);
+            fetchMapUrl(`/tacklesmaps/${encodeURIComponent(selectedTeam)}`, setTacklesMapUrl);
         }
     }, [selectedTeam]);
 
@@ -48,26 +46,28 @@ function Defending({ selectedTeam }) {
 
     return (
         <div className="defensiveContainer">
-            <div className="graphContainer">
-                {selectedTeam && blockedMapUrl ? (
-                    <Image className="graphImage" src={blockedMapUrl} alt={`${selectedTeam} Blocked Map`} fluid />
-                ) : (
-                    <p className="instructionText">Please select a team to view the blocked map.</p>
-                )}
-            </div>
-            <div className="graphContainer">
-                {selectedTeam && PPMapUrl ? (
-                    <Image className="graphImage" src={PPMapUrl} alt={`${selectedTeam} PP Map`} fluid />
-                ) : (
-                    <p className="instructionText">Please select a team to view the PP map.</p>
-                )}
-            </div>
-            <div className="graphContainer">
-                {selectedTeam && pressureMapUrl ? (
-                    <Image className="graphImage" src={pressureMapUrl} alt={`${selectedTeam} Pressure Map`} fluid />
-                ) : (
-                    <p className="instructionText">Please select a team to view the pressure map.</p>
-                )}
+            <div className="graphGrid">
+                <div className="graphContainer">
+                    {selectedTeam && blockedMapUrl ? (
+                        <Image className="graphImage" src={blockedMapUrl} alt={`${selectedTeam} Blocked Map`} fluid />
+                    ) : (
+                        <p className="instructionText">Please select a team to view the blocked map.</p>
+                    )}
+                </div>
+                <div className="graphContainer">
+                    {selectedTeam && PPMapUrl ? (
+                        <Image className="graphImage" src={PPMapUrl} alt={`${selectedTeam} PP Map`} fluid />
+                    ) : (
+                        <p className="instructionText">Please select a team to view the PP map.</p>
+                    )}
+                </div>
+                <div className="graphContainer">
+                    {selectedTeam && pressureMapUrl ? (
+                        <Image className="graphImage" src={pressureMapUrl} alt={`${selectedTeam} Pressure Map`} fluid />
+                    ) : (
+                        <p className="instructionText">Please select a team to view the pressure map.</p>
+                    )}
+                </div>
             </div>
             <div className="fullWidthGraphContainer">
                 {selectedTeam && tacklesMapUrl ? (
@@ -81,4 +81,5 @@ function Defending({ selectedTeam }) {
 }
 
 export default Defending;
+
 

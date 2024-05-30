@@ -5,27 +5,21 @@
     padding: 20px;
     background: #f4f4f4;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chart-and-heatmap-container, .additional-charts-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     margin-bottom: 10px;
 }
 
-.chart-container, .heatmap-container, .additional-chart-container {
-    flex: 1;
+.chartContainer, .heatmapContainer, .additional-chart-container {
     padding: 10px;
     background: white;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-right: 10px; /* Add spacing between charts */
-}
-
-.chart-container:last-child, .heatmap-container:last-child, .additional-chart-container:last-child {
-    margin-right: 0; /* Remove margin for the last chart */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .fixed-table-container {
@@ -33,17 +27,17 @@
     overflow: auto; /* Adds scrollbar if content overflows */
     background: white;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
     width: 100%;
     margin-bottom: 10px;
 }
 
-.button-group {
-    display: flex;        /* Makes the container a flexbox */
-    flex-direction: row;  /* Aligns children (buttons) in a row */
-    justify-content: center; /* Centers buttons horizontally */
-    gap: 10px;            /* Adds space between buttons */
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
 }
 
 .fixed-players-thead th {
@@ -76,4 +70,15 @@
 .loading-text {
     margin-top: 1rem;
     font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .chart-and-heatmap-container,
+    .additional-charts-container {
+        grid-template-columns: 1fr; /* Stacks the charts on mobile devices */
+    }
+
+    .fixed-table-container {
+        height: auto;
+    }
 }
