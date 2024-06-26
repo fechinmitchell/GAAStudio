@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "gaastudio",
-  "private_key_id": "63c5a587ce6a00d63479ec6d899cb465116265c4",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDENft7nSeV3nI6\nhzdOHcLe7vxk7dmJjc/utmlpJnyvIr24CP/tw1opKbC1i/2TUaBBWWtrwEMIFRQf\nPd96nKPOq3+x66renhubocaTvPRX0MDvUckL1i8hzKblInmdXA49PbPk7LZZT92B\nEW5RNzDhvNOb+8+V18mIcU45z0oUHaHEhPRf8MIJEiChBqXFy84v6rvi6r/P+RTv\nRVIwYv7foiyYPQABOhLs3wdqgOAGFa5GDIpgUO+BXe+W4q6S4pZ0IHnhHJ99HCML\nqb2Q6F70MK7/I7T6IJIoXdXIA1NxfjL2eO2jNHXbtbr236TVPw63Z60LvtOBmeXr\nwGnwxeu/AgMBAAECggEAARb7qpgY3DA8Gi8eE4T+zBYvuK/JgYYUHZNNypO4JZDf\n1OHX6g4ntgrRPHDmm6bcaQCCJDsRJD5ZukKxtxCfqEozj11ruYjPRnIDlFZ8VPCH\n4cxmfXZXFKz6UFN8sW8NdTGeiir2aFCVPl5GapUP5HEUC82+PWrRZ7yZXqDUHIB7\nIhGBgjj+GYMkmORbTjbwJ7g6up0enoI1s4aGrQvqMT34M3bSUtzXYD0P0izKojXJ\nK65UZPb0xAmGRC+aKS95EWDYB38CNqhW991J2rZ+k+DVZqGIyfq9Lxufi2DNzhbR\nzdI8UixPY4hM7/C0wS8egzBEEG6C9V6bQfdm2OBywQKBgQDzKv/+ew/AY7LbWtaG\nQ5feWWAVMXBsD67gXv99tOOlN/U9TJKdZV2kMNTVv3Mq95BN3/eAFWX/TitiKx0t\ntZoZ+LvX2DUQU0xUsMmR9rESctbeGqgBDmIMWzOIBbFigxiGurusHA+w8HW56XP3\nkLJXVAPrP/TdVNS6dUafi5aCFwKBgQDOkKFjzJ1DZputVmVvSFx30KUPmEQCbh/c\nImYKO8kHQkl1Ufq10eYcZIXusD/Go1MsutRIrdYHadm5OqIYOPgh3IKWivzcwr3I\nlcWkkYf5QQ/GBC1XbXuYMd9LpfF17fU4cSl2sOXH18a07VHek2hbvkVWZ4QPk8Hq\nW0lk7La0mQKBgQCbgKYQYTYjfB5GtIJ3fgZChLkzFFimYikdBuMvylvBrlVADBW+\nXbJSa3/P6QyHL6Wyh0VJPWXqrFyF/Lg+IOIZNb06PONCO2KWzi85Dp8SAypxAm7p\nrf75k+ESXUGgk+E9V3DokVFff4Zpi2dDq97AhdOzv0ShvbwEOTcelC99pQKBgFF7\ng+5WPILl6usJdaHcLX2l9DaendVHk5HGj/Hhe389irSYzgkC736ruJlbNQ0qSBkQ\n6cRxrkfmXVhP5LkhX+Abl/fCg9ShjTOewQQV1ElifNJju28NZP+4TJkOsJ0QbPcC\nzJRhW4LlfyDHrM/b3gKyn69hzhpG8ut7bww8xCWhAoGBAK4xXhqisQc6PqsirURU\nShuS1p9k9mVjcYnV0WjVUGBrf44Pq4ulzIVgxux938jREJ6Ai7iDjTA4dXsaZvDN\nxHMxaMnKadNF6MchimHgtci9d/6ckrxmzSOi1JBrxIhnC14+oKzJ08T1rvrtlpL/\nVA418IQSR4rnEr6dY6ZfOF29\n-----END PRIVATE KEY-----\n",
-  "client_email": "gaastudio@gaastudio.iam.gserviceaccount.com",
-  "client_id": "114972093081235486392",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gaastudio%40gaastudio.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+
