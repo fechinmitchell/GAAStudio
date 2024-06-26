@@ -40,3 +40,4 @@ backend/venv/
 frontend/build/
 
 
+frontend/package-lock.json
