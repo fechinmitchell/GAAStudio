@@ -7,6 +7,8 @@ import './Sidebar.css';
 function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam, sidebarOpen }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
+  const [selectedYear, setSelectedYear] = useState('2023'); // New state for selected year
+  const years = ['2023', '2024 - Coming Soon']; // List of years
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -35,7 +37,7 @@ function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam, sidebarOpen
   };
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${sidebarOpen ? '' : 'closed'}`}>
       <div className="sidebar-header">
         {sidebarOpen && (
           <>
@@ -45,6 +47,17 @@ function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam, sidebarOpen
             </div>
           </>
         )}
+      </div>
+      <div className="year-selector">
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+          className="year-dropdown"
+        >
+          {years.map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
       </div>
       <div className="team-selector">
         <select
@@ -68,3 +81,4 @@ function Sidebar({ onNavigate, teams, selectedTeam, setSelectedTeam, sidebarOpen
 }
 
 export default Sidebar;
+

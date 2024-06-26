@@ -35,15 +35,15 @@
   opacity: 0;
 }
 
-.team-selector {
+.year-selector, .team-selector {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.team-dropdown {
+.year-dropdown, .team-dropdown {
   width: 100%;
   padding: 10px;
-  margin: 10px 0;
+  margin: 1px 0;
   background-color: #282c34;
   color: white;
   border: 1px solid #444;
@@ -51,7 +51,7 @@
   box-sizing: border-box;
 }
 
-.team-dropdown option {
+.year-dropdown option, .team-dropdown option {
   background-color: #282c34;
   color: white;
 }
