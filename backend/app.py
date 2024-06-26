@@ -46,7 +46,7 @@ except Exception as e:
 app = Flask(__name__)
 
 # Allow CORS for your Vercel domain
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaa-studio.vercel.app", "https://gaa-studio.com" ]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://gaa-studio.vercel.app", "https://gaa-studio.com", "https://www.gaa-studio.com"]}})
 
 @app.route('/healthz')
 def health_check():
