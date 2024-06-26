@@ -24,3 +24,31 @@ backend/venv/
 *.dylib
 
 .history/backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0_20240509171905.json
+
+# Ignore history directory
+.history/
+
+# Ignore environment files
+.env
+.env.backup
+
+# Ignore Firebase admin SDK JSON files
+backend/gaastudio-63c5a587ce6a.json
+backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-a10063e0b0.json
+backend/gaastudio-2a7ac-firebase-adminsdk-pxkjd-41f9501021.json
+
+# Properly ignore node_modules directory
+node_modules/
+
+# Ignore Python virtual environment directory
+backend/venv/
+
+# Ignore cache files (if applicable, based on your previous errors)
+*.pack
+
+# Ignore any dynamic library files that might be large
+*.dylib
+
+# Ignore additional environment and history files
+.history/
+
